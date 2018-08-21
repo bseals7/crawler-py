@@ -65,7 +65,7 @@ def get_list(url):
             url, picture, title = ul
             url = url.replace('_hd', '')
             id = re.findall('viewkey=(.*?)&', url)[0]
-            downpath=os.path.join(video_path,u'{}.mp4'.format(title))
+            downpath=os.path.join(video_path,u'{}.mp4'.format(title.replace('/','')))
             if not exists(id):
                 videos.append({'id':id, 'url':url, 'picture':picture, 'downpath':downpath,'title':title})
                 print(id + ' do not exists!')
