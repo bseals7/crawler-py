@@ -9,7 +9,7 @@ pip install requests pymysql
 
 2. 创建一个编码为`utf8mb4`的mysql数据库。
 
-推荐宝塔直接操作
+**推荐宝塔直接操作**
 
 3. 修改脚本
 
