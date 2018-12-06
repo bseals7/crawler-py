@@ -185,6 +185,6 @@ def main(names):
 
 
 if __name__=='__main__':
-    names=['s-sp-k8-k9','addictedtofuckingandsex','luoli0','dapipi00'] #需下载的tumblr用户名列表
+    names=[] #需下载的tumblr用户名列表
     main(names)
 
