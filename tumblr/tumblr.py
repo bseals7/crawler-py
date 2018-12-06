@@ -138,16 +138,16 @@ def download_from_text(name,d_type):
 def download(username,filename,thread_num=10,threshold=1000):
     type_=re.findall('([^/]*?)_(pictures|videos)\.txt',filename)[0][1]
     queue=Queue.Queue()
+    u_path=os.path.join(download_path,username)
+    r_path=os.path.join(u_path,type_)
+    if not os.path.exists(u_path):
+        os.mkdir(u_path)
+    if not os.path.exists(r_path):
+        os.mkdir(r_path)
     with open(filename) as f:
         links=[i.strip() for i in f.readlines()]
     for link in links:
         name=os.path.basename(link)
-        u_path=os.path.join(download_path,username)
-        if not os.path.exists(u_path):
-            os.mkdir(u_path)
-        r_path=os.path.join(u_path,type_)
-        if not os.path.exists(r_path):
-            os.mkdir(r_path)
         filepath=os.path.join(r_path,name)
         if not os.path.exists(filepath):
             queue.put(dict(url=link,path=filepath))
