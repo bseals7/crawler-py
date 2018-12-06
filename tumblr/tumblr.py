@@ -167,8 +167,8 @@ def download(username,filename,thread_num=10,threshold=1000):
 
 def main(names):
     print(u"解析完毕后是否下载？\n 0. 不下载; 1. 全部下载； 2. 仅下载视频； 3. 仅下载图片")
+    d_type=raw_input()
     for name in names:
-        d_type=raw_input()
         getpost(name,UQueue)
         task=[]
         for i in range(min(10,UQueue.qsize())):
@@ -185,6 +185,6 @@ def main(names):
 
 
 if __name__=='__main__':
-    names=['ppshipin','s-sp-k8-k9','addictedtofuckingandsex','luoli0','dapipi00'] #需下载的tumblr用户名列表
+    names=['s-sp-k8-k9','addictedtofuckingandsex','luoli0','dapipi00'] #需下载的tumblr用户名列表
     main(names)
 
