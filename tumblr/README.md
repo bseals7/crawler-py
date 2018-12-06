@@ -1,4 +1,5 @@
 ## tumblr多线程下载脚本。
+*tumblr将死，有事烧香*
 
 ### feature：
 1. 支持下载多个用户视频
@@ -19,3 +20,5 @@ names=['username1','username2']
 
 - 运行脚本
 ```python tumblr.py```
+
+
