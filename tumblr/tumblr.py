@@ -44,12 +44,16 @@ UQueue=Queue.Queue()
 def getpost(uid,queue):
     url='http://%s.tumblr.com/api/read?&num=50'%uid
     page=requests.get(url).content
-    total=re.findall('<posts start="0" total="(.*?)">',page)[0]
-    total=int(total)
-    a=[i*50 for i in range(1000) if i*50-total<0]
-    ul=api_url%uid
-    for i in a:
-        queue.put(ul+str(i))
+    try:
+        total=re.findall('<posts start="0" total="(.*?)">',page)[0]
+        total=int(total)
+        a=[i*50 for i in range(1000) if i*50-total<0]
+        ul=api_url%uid
+        for i in a:
+            queue.put(ul+str(i))
+    except Exception as e:
+        print(u'geting posts from {} error:{}'.format(uid,e))
+        return False
 
 
 extractpicre = re.compile(r'(?<=<photo-url max-width="1280">).+?(?=</photo-url>)',flags=re.S)   #search for url of maxium size of a picture, which starts with '<photo-url max-width="1280">' and ends with '</photo-url>'
@@ -173,22 +177,24 @@ def main(names):
     print(u"解析完毕后是否下载？\n 0. 不下载; 1. 全部下载； 2. 仅下载视频； 3. 仅下载图片")
     d_type=raw_input()
     for name in names:
-        getpost(name,UQueue)
-        task=[]
-        for i in range(min(10,UQueue.qsize())):
-            t=Consumer(UQueue)
-            t.start()
-            task.append(t)
-        for t in task:
-            t.join()
-        write(name)
-        print(u"解析完毕，请查看同目录下的文件")
-        ##下载
-        download_from_text(name,d_type)
+        a=getpost(name,UQueue)
+        if a!=False:
+            task=[]
+            for i in range(min(10,UQueue.qsize())):
+                t=Consumer(UQueue)
+                t.start()
+                task.append(t)
+            for t in task:
+                t.join()
+            write(name)
+            print(u"解析完毕，请查看同目录下的文件")
+            ##下载
+            download_from_text(name,d_type)
 
 
 
 if __name__=='__main__':
     names=[] #需下载的tumblr用户名列表
     main(names)
+
 
