@@ -27,8 +27,10 @@ import re
 import os
 import sys
 if sys.version_info[0]==2:
+    py3=False
     import Queue
 else:
+    py3=True
     import queue as Queue
 import time
 
@@ -175,7 +177,10 @@ def download(username,filename,thread_num=10,threshold=1000):
 
 def main(names):
     print(u"解析完毕后是否下载？\n 0. 不下载; 1. 全部下载； 2. 仅下载视频； 3. 仅下载图片")
-    d_type=raw_input()
+    if py3:
+        d_type=input()
+    else:
+        d_type=raw_input()
     for name in names:
         a=getpost(name,UQueue)
         if a!=False:
