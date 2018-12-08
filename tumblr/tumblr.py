@@ -21,7 +21,6 @@ python tumblr.py
 """
 
 from threading import Thread
-import Queue
 import requests
 import re
 import os
