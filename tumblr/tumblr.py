@@ -44,7 +44,7 @@ api_url='http://%s.tumblr.com/api/read?&num=50&start='
 UQueue=Queue.Queue()
 def getpost(uid,queue):
     url='http://%s.tumblr.com/api/read?&num=50'%uid
-    page=requests.get(url).content
+    page=requests.get(url).text
     try:
         total=re.findall('<posts start="0" total="(.*?)">',page)[0]
         total=int(total)
@@ -75,7 +75,7 @@ class Consumer(Thread):
             link = self.queue.get()
             print('start parse post: ' + link)
             try:
-                content = session.get(link).content
+                content = session.get(link).text
                 videos = extractvideore.findall(content)
                 video_links.extend([vhead % v for v in videos])
                 pic_links.extend(extractpicre.findall(content))
