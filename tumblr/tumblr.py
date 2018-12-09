@@ -118,7 +118,7 @@ def write(name):
             f.write('%s\n'%i)
     with open(vid_path,'w') as f:
         for i in videos:
-            f.write('%s\n'%i)
+            f.write(u'%s\n'%i)
 
 def download_from_text(name,d_type):
     if d_type=='0':
