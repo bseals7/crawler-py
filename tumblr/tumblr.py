@@ -57,7 +57,7 @@ def getpost(uid,queue):
         return False
 
 
-extractpicre = re.compile(r'(?<=<photo-url max-width="1280">).+?(?=</photo-url>)',flags=re.S)   #search for url of maxium size of a picture, which starts with '<photo-url max-width="1280">' and ends with '</photo-url>'
+extractpicre = re.compile(r'(?<=<photo-url max-width="1280">).+?.jpg(?=</photo-url>)',flags=re.S)   #search for url of maxium size of a picture, which starts with '<photo-url max-width="1280">' and ends with '</photo-url>'
 extractvideore=re.compile('/tumblr_(.*?)" type="video/mp4"')
 
 video_links = []
@@ -70,17 +70,20 @@ class Consumer(Thread):
         self.queue = l_queue
 
     def run(self):
-        session = requests.Session()
         while 1:
             link = self.queue.get()
-            print('start parse post: ' + link)
             try:
-                content = session.get(link).text
+                t=time.time()
+                content = requests.get(link,timeout=10).text
+                t2=time.time()
                 videos = extractvideore.findall(content)
+                t3=time.time()
                 video_links.extend([vhead % v for v in videos])
                 pic_links.extend(extractpicre.findall(content))
-            except:
-                print('url: %s parse failed\n' % link)
+                t4=time.time()
+                print('{} cost total {}s; get content {}s; get video {}s;get pictures {}s\n'.format(link,round(t4-t,1),round(t2-t,1),round(t3-t2,1),round(t4-t3,1)))
+            except Exception as e:
+                print('url: {} parse failed {}'.format(link,e))
             if self.queue.empty():
                 break
 
@@ -97,7 +100,7 @@ class Downloader(Thread):
             url=info['url']
             path=info['path']
             try:
-                r=requests.get(url,stream=True)
+                r=requests.get(url,stream=True,timeout=10)
                 with open(path,'wb') as f:
                     for chunk in r.iter_content(chunk_size=1024*1024):
                         if chunk:
@@ -118,7 +121,10 @@ def write(name):
             f.write('%s\n'%i)
     with open(vid_path,'w') as f:
         for i in videos:
-            f.write(u'%s\n'%i)
+            try:
+                f.write(u'{}\n'.format(i))
+            except Exception as e:
+                print('write fail!')
 
 def download_from_text(name,d_type):
     if d_type=='0':
@@ -184,7 +190,7 @@ def main(names):
         a=getpost(name,UQueue)
         if a!=False:
             task=[]
-            for i in range(min(10,UQueue.qsize())):
+            for i in range(min(5,UQueue.qsize())):
                 t=Consumer(UQueue)
                 t.start()
                 task.append(t)
@@ -198,7 +204,7 @@ def main(names):
 
 
 if __name__=='__main__':
-    names=[] #需下载的tumblr用户名列表
+    names=["zepppp11","keith0824","asianhose","esken3","hnook","brapan","cewasd","coreha","eroecchi","mini-maniax","ahadaka","samir087","host-s","max07min","jam1966","japanese-sex-art"] #需下载的tumblr用户名列表
     main(names)
 
 
