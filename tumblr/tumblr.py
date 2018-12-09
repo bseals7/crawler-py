@@ -204,7 +204,7 @@ def main(names):
 
 
 if __name__=='__main__':
-    names=["zepppp11","keith0824","asianhose","esken3","hnook","brapan","cewasd","coreha","eroecchi","mini-maniax","ahadaka","samir087","host-s","max07min","jam1966","japanese-sex-art"] #需下载的tumblr用户名列表
+    names=[] #需下载的tumblr用户名列表
     main(names)
 
 
