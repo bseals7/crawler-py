@@ -118,7 +118,10 @@ def write(name):
     vid_path=os.path.join(link_path,'%s_videos.txt'%name)
     with open(pic_path,'w') as f:
         for i in pictures:
-            f.write('%s\n'%i)
+            try:
+                f.write(u'{}\n'.format(i))
+            except Exception as e:
+                print('write fail!')
     with open(vid_path,'w') as f:
         for i in videos:
             try:
