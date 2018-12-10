@@ -58,7 +58,7 @@ def getpost(uid,queue):
 
 
 extractpicre = re.compile(r'(?<=<photo-url max-width="1280">).+?(?=</photo-url>)',flags=re.S)   #search for url of maxium size of a picture, which starts with '<photo-url max-width="1280">' and ends with '</photo-url>'
-extractvideore=re.compile('<source src=".*?/tumblr_(.*?)" type="video/mp4"')
+extractvideore=re.compile('source src=".*?/tumblr_(.*?)" type="video/mp4"')
 
 video_links = []
 pic_links = []
