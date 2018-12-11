@@ -60,8 +60,8 @@ def getpost(uid,queue):
 extractpicre = re.compile(r'(?<=<photo-url max-width="1280">).+?(?=</photo-url>)',flags=re.S)   #search for url of maxium size of a picture, which starts with '<photo-url max-width="1280">' and ends with '</photo-url>'
 extractvideore=re.compile('source src=".*?/tumblr_(.*?)" type="video/mp4"')
 
-video_links = []
-pic_links = []
+
+
 vhead = 'https://vt.tumblr.com/tumblr_%s.mp4'
 
 class Consumer(Thread):
@@ -70,6 +70,7 @@ class Consumer(Thread):
         self.queue = l_queue
 
     def run(self):
+        global video_links,pic_links
         while 1:
             link = self.queue.get()
             try:
@@ -112,6 +113,7 @@ class Downloader(Thread):
                 break
 
 def write(name):
+    global video_links,pic_links
     videos=list(set([i.replace('/480','').replace('.mp4.mp4','.mp4') for i in video_links]))
     pictures=list(set(pic_links))
     pic_path=os.path.join(link_path,'%s_pictures.txt'%name)
@@ -127,6 +129,7 @@ def write(name):
             try:
                 f.write(u'{}\n'.format(i))
             except Exception as e:
+                print i
                 print('write fail!')
 
 def download_from_text(name,d_type):
@@ -190,6 +193,9 @@ def main(names):
     else:
         d_type=raw_input()
     for name in names:
+        video_links = []
+        pic_links = []
+        global video_links,pic_links
         a=getpost(name,UQueue)
         if a!=False:
             task=[]
