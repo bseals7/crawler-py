@@ -61,7 +61,8 @@ extractpicre = re.compile(r'(?<=<photo-url max-width="1280">).+?(?=</photo-url>)
 extractvideore=re.compile('source src=".*?/tumblr_(.*?)" type="video/mp4"')
 
 
-
+video_links = []
+pic_links = []
 vhead = 'https://vt.tumblr.com/tumblr_%s.mp4'
 
 class Consumer(Thread):
@@ -193,9 +194,9 @@ def main(names):
     else:
         d_type=raw_input()
     for name in names:
+        global video_links,pic_links
         video_links = []
         pic_links = []
-        global video_links,pic_links
         a=getpost(name,UQueue)
         if a!=False:
             task=[]
