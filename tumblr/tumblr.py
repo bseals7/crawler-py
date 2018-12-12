@@ -83,7 +83,8 @@ class Consumer(Thread):
                 video_links.extend([vhead % v for v in videos])
                 pic_links.extend(extractpicre.findall(content))
                 t4=time.time()
-                print('{} cost total {}s; get content {}s; get video {}s;get pictures {}s\n'.format(link,round(t4-t,1),round(t2-t,1),round(t3-t2,1),round(t4-t3,1)))
+                print('{} cost total {}s; get content {}s; get video {}s;get pictures {}s\n;'.format(link,round(t4-t,1),round(t2-t,1),round(t3-t2,1),round(t4-t3,1)))
+                print('video length:{};pictures length:{}'.format(len(video_links),len(pic_links)))
             except Exception as e:
                 print('url: {} parse failed {}'.format(link,e))
             if self.queue.empty():
