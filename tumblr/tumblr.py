@@ -215,7 +215,7 @@ def main(names):
 
 
 if __name__=='__main__':
-    names=[] #需下载的tumblr用户名列表
+    names=['ikiviy'] #需下载的tumblr用户名列表
     main(names)
 
 
